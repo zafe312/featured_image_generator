@@ -70,7 +70,7 @@ if button_clicked:
             url = company_logos[company_name]
             response = requests.get(url)
             img2 = Image.open(BytesIO(response.content)).convert("RGBA")
-            st.image(img2)
+            # st.image(img2)
         except:
             st.markdown(f'No logo found for {company_name.capitalize()} in database. Check spelling or upload logo.')
             continue
