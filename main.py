@@ -64,12 +64,13 @@ if button_clicked:
         
         template_number = np.random.choice([1,2,3])
 
-        img1 = Image.open(os.path.join(os.getcwd(),f'featured_image_templates/featured_image_template_{template_number}.png'))
+        img1 = Image.open(os.path.join(os.getcwd(),f'featured_image_templates/featured_image_template_{template_number}.png')).convert("RGBA")
         try:
             # img2 = Image.open(os.path.join(os.getcwd(),f'company_logos/{company_name}_logo.png'))
             url = company_logos[company_name]
             response = requests.get(url)
-            img2 = Image.open(BytesIO(response.content))
+            img2 = Image.open(BytesIO(response.content)).convert("RGBA")
+            st.image(img2)
         except:
             st.markdown(f'No logo found for {company_name.capitalize()} in database. Check spelling or upload logo.')
             continue
@@ -84,11 +85,11 @@ if button_clicked:
         wpercent = (base_width / float(img2.size[0]))
         hsize = int((float(img2.size[1]) * float(wpercent)))
         if wsize<450:
-            img2 = img2.resize((wsize, base_height), Image.Resampling.LANCZOS)
+            img2 = img2.resize((wsize, base_height))#, Image.Resampling.LANCZOS)
         else:
-            img2 = img2.resize((base_width, hsize), Image.Resampling.LANCZOS)
+            img2 = img2.resize((base_width, hsize))#, Image.Resampling.LANCZOS)
 
-        img1.paste(img2, (315-int(img2.size[0]/2),250-int(img2.size[1]/2)))
+        img1.paste(img2, (315-int(img2.size[0]/2),245-int(img2.size[1]/2)), mask=img2)
 
         draw = ImageDraw.Draw(img1)
         font = ImageFont.truetype(os.path.join(os.getcwd(),f"fonts/Arial.ttf"), 46)
