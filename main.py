@@ -97,7 +97,7 @@ if button_clicked:
         # draw.text((50, 200),job_positions[i],(255,25,255),font=font)
         
         image_name = f'{date_today}_{company_name}'
-        if image_name + '.png' in generated_image_names:
+        while image_name + '.png' in generated_image_names:
             image_name += f'_{np.random.randint(1,100)}'
         image_path = os.path.join(os.getcwd(),f'generated_images/{image_name}.png')
         img1.save(image_path)
