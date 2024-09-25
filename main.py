@@ -69,7 +69,8 @@ if button_clicked:
             # img2 = Image.open(os.path.join(os.getcwd(),f'company_logos/{company_name}_logo.png'))
             url = company_logos[company_name]
             response = requests.get(url)
-            img2 = Image.open(BytesIO(response.content))
+            # img2 = Image.open(BytesIO(response.content))
+            img2 = Image.open(response.content)
         except:
             st.markdown(f'No logo found for {company_name.capitalize()} in database. Check spelling or upload logo.')
             continue
@@ -119,24 +120,6 @@ if button_clicked:
             file_name=f"{date_today}_images.zip",
             mime="application/zip"
         )
-
-# btn_dlt_all_data = st.button("Delete all data")
-
-# def delete_files_in_directory(directory_path):
-#    try:
-#      files = os.listdir(directory_path)
-#      for file in files:
-#        file_path = os.path.join(directory_path, file)
-#        if os.path.isfile(file_path):
-#          os.remove(file_path)
-#      st.markdown("All files deleted successfully.")
-#    except OSError:
-#      st.markdown("Error occurred while deleting files.")
-
-# # Delete all generated data
-# if btn_dlt_all_data:
-#     directory_path = os.path.join(os.getcwd(),f'generated_images')
-#     delete_files_in_directory(directory_path)
 
 st.subheader("Add URL for company logo")
 st.markdown("This will replace the old url in the database. Add carefully.")
