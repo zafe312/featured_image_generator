@@ -69,8 +69,7 @@ if button_clicked:
             # img2 = Image.open(os.path.join(os.getcwd(),f'company_logos/{company_name}_logo.png'))
             url = company_logos[company_name]
             response = requests.get(url)
-            # img2 = Image.open(BytesIO(response.content))
-            img2 = Image.open(response.content)
+            img2 = Image.open(BytesIO(response.content))
         except:
             st.markdown(f'No logo found for {company_name.capitalize()} in database. Check spelling or upload logo.')
             continue
