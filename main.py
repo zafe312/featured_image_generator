@@ -72,7 +72,22 @@ if button_clicked:
             img2 = Image.open(BytesIO(response.content)).convert("RGBA")
             # st.image(img2)
         except:
-            st.markdown(f'No logo found for {company_name.capitalize()} in database. Check spelling or upload logo.')
+            draw = ImageDraw.Draw(img1)
+            font = ImageFont.truetype(os.path.join(os.getcwd(),f"fonts/Arial.ttf"), 76)
+            draw.text((100, 210),company_name.title(),(0,0,0),font=font)
+
+            draw = ImageDraw.Draw(img1)
+            font = ImageFont.truetype(os.path.join(os.getcwd(),f"fonts/Arial.ttf"), 46)
+            draw.text((100, 400),job_positions[i],(255,255,255),font=font)
+
+            image_name = f'{date_today}_{company_name}'
+            while image_name + '.png' in generated_image_names:
+                image_name += f'_{np.random.randint(1,100)}'
+            image_path = os.path.join(os.getcwd(),f'generated_images/{image_name}.png')
+            img1.save(image_path)
+            generated_image_names.append(image_name+'.png')
+
+            st.markdown(f'No logo found for {company_name.title()} in database. Using the name only.')
             continue
 
         # # No transparency mask specified,  
