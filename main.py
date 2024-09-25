@@ -8,6 +8,7 @@ import os
 import zipfile
 import requests
 from io import BytesIO
+import csv
 
 from io import BytesIO
 buf = BytesIO()
@@ -41,14 +42,12 @@ except:
 company_names = [data_list[i,0].strip() for i in range(data_list.shape[0])]
 job_positions = [data_list[i,1].strip() for i in range(data_list.shape[0])]
 
-company_logos = {
-                 'Apple':'https://i.pinimg.com/736x/4f/39/fc/4f39fc3681b24694bfc353a5e24a9a2c.jpg',
-                 'Google':'https://upload.wikimedia.org/wikinews/en/0/0c/Google_logo_png.png',
-                 'Pinterest':'https://pngimg.com/uploads/pinterest/pinterest_PNG4.png'
-                 }
+company_logos = {}
 
-# company_names = ['Apple','Boat','Turing','Wipro','Google','Pinterest','Genpact']
-# job_positions = ['Sales Manager','Trainee Engineer','Customer Service','Business Analyst','Data Entry Operator','Human Resources','Sales Account Executive']
+with open(os.path.join(os.getcwd(),f'data/company_logo.csv')) as f:
+    next(f)  # Skip the header
+    reader = csv.reader(f, skipinitialspace=True)
+    company_logos = dict(reader)
 
 button_clicked = st.button("Generate images")
 
@@ -61,7 +60,7 @@ if button_clicked:
 
     for i, company_name in enumerate(company_names):
 
-        company_name = company_name.capitalize()
+        company_name = company_name.lower()
         
         template_number = np.random.choice([1,2,3])
 
@@ -72,7 +71,7 @@ if button_clicked:
             response = requests.get(url)
             img2 = Image.open(BytesIO(response.content))
         except:
-            st.markdown(f'No logo found for {company_name} in database. Check spelling or upload logo.')
+            st.markdown(f'No logo found for {company_name.capitalize()} in database. Check spelling or upload logo.')
             continue
 
         # # No transparency mask specified,  
@@ -120,3 +119,42 @@ if button_clicked:
             file_name=f"{date_today}_images.zip",
             mime="application/zip"
         )
+
+# btn_dlt_all_data = st.button("Delete all data")
+
+# def delete_files_in_directory(directory_path):
+#    try:
+#      files = os.listdir(directory_path)
+#      for file in files:
+#        file_path = os.path.join(directory_path, file)
+#        if os.path.isfile(file_path):
+#          os.remove(file_path)
+#      st.markdown("All files deleted successfully.")
+#    except OSError:
+#      st.markdown("Error occurred while deleting files.")
+
+# # Delete all generated data
+# if btn_dlt_all_data:
+#     directory_path = os.path.join(os.getcwd(),f'generated_images')
+#     delete_files_in_directory(directory_path)
+
+st.subheader("Add URL for company logo")
+st.markdown("This will replace the old url in the database. Add carefully.")
+company_name_input = st.text_input("Enter company name")
+company_name_input = company_name_input.strip().lower()
+logo_url_input = st.text_input("Enter URL of logo")
+logo_url_input = logo_url_input.strip().lower()
+btn_add_company_logo = st.button("Add Company Logo URL")
+
+# Delete all generated data
+if btn_add_company_logo:
+    company_logos[company_name_input] = logo_url_input
+    if company_name_input != "" and logo_url_input != "":
+        with open(os.path.join(os.getcwd(),f'data/company_logo.csv'), 'w',newline='') as csv_file:  
+            writer = csv.writer(csv_file)
+            for key, value in company_logos.items():
+                writer.writerow([key, value])
+    else:
+        st.markdown("Enter valid company name and URL")
+
+    
