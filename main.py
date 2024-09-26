@@ -19,14 +19,16 @@ st.subheader("Follow these steps")
 st.markdown(
     """
     - Step 1: Input company name, job title in the given format in the text box.
-    - Step 2: Click "Generate" button to generate the featured images.
-    - Step 3: Click "Download ZIP" button to download Zip file containing the images.
+    - Step 2: Select template.
+    - Step 3: Click "Generate" button to generate the featured images.
+    - Step 4: Click "Download ZIP" button to download Zip file containing the images.
     """
 )
 
 
 date_today = datetime.today().strftime('%Y-%m-%d')
-data_str = st.text_area("Job details",value='Apple,Software Developer,\nGoogle, Human Resource Manager')
+
+data_str = st.text_area("Enter Job details",value='Apple,Software Developer,\nGoogle, Human Resource Manager')
 data_str = data_str.strip()
 if data_str[-1]==',':
     data_str = data_str[:-1]
@@ -38,6 +40,7 @@ except:
     st.markdown("Some commas are missing. Put the commas and press Ctrl+Enter.")
 # st.markdown(data_list[:,0])
 
+template_name = st.radio("Select Template",["General","WFH","Walk in"],horizontal=True)
 
 company_names = [data_list[i,0].strip() for i in range(data_list.shape[0])]
 job_positions = [data_list[i,1].strip() for i in range(data_list.shape[0])]
@@ -62,7 +65,13 @@ if button_clicked:
 
         company_name = company_name.lower()
         
-        template_number = np.random.choice([1,2,3])
+        # template_number = np.random.choice([1,2,3])
+        if template_name == "General":
+            template_number = 2
+        elif template_name == "WFH":
+            template_number = 1
+        elif template_name == "Walk in":
+            template_number = 3
 
         img1 = Image.open(os.path.join(os.getcwd(),f'featured_image_templates/featured_image_template_{template_number}.png')).convert("RGBA")
         try:
@@ -144,7 +153,7 @@ logo_url_input = st.text_input("Enter URL of logo")
 logo_url_input = logo_url_input.strip().lower()
 btn_add_company_logo = st.button("Add Company Logo URL")
 
-# Delete all generated data
+# add company logo url
 if btn_add_company_logo:
     company_logos[company_name_input] = logo_url_input
     if company_name_input != "" and logo_url_input != "":
@@ -154,6 +163,15 @@ if btn_add_company_logo:
                 writer.writerow([key, value])
     else:
         st.markdown("Enter valid company name and URL")
+
+
+# Download company logo url csv file
+with open(os.path.join(os.getcwd(),f'data/company_logo.csv'), "rb") as fp:
+        btn_download = st.download_button(
+            label="Download company logo csv",
+            data=fp,
+            file_name=f"company_logo.csv"
+        )
 
 
 
