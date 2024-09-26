@@ -73,12 +73,12 @@ if button_clicked:
             # st.image(img2)
         except:
             draw = ImageDraw.Draw(img1)
-            font = ImageFont.truetype(os.path.join(os.getcwd(),f"fonts/Arial.ttf"), 76)
+            font = ImageFont.truetype(os.path.join(os.getcwd(),f"fonts/NotoSerif.ttf"), 76)
             draw.text((100, 210),company_name.title(),(0,0,0),font=font)
 
             draw = ImageDraw.Draw(img1)
-            font = ImageFont.truetype(os.path.join(os.getcwd(),f"fonts/Arial.ttf"), 46)
-            draw.text((100, 400),job_positions[i],(255,255,255),font=font)
+            font = ImageFont.truetype(os.path.join(os.getcwd(),f"fonts/NotoSerif.ttf"), 40)
+            draw.text((40, 400),job_positions[i],(255,255,255),font=font)
 
             image_name = f'{date_today}_{company_name}'
             while image_name + '.png' in generated_image_names:
@@ -107,8 +107,8 @@ if button_clicked:
         img1.paste(img2, (315-int(img2.size[0]/2),245-int(img2.size[1]/2)), mask=img2)
 
         draw = ImageDraw.Draw(img1)
-        font = ImageFont.truetype(os.path.join(os.getcwd(),f"fonts/Arial.ttf"), 46)
-        draw.text((100, 400),job_positions[i],(255,255,255),font=font)
+        font = ImageFont.truetype(os.path.join(os.getcwd(),f"fonts/NotoSerif.ttf"), 40)
+        draw.text((40, 400),job_positions[i],(255,255,255),font=font)
         # draw.text((50, 200),job_positions[i],(255,25,255),font=font)
         
         image_name = f'{date_today}_{company_name}'
