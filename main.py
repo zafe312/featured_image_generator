@@ -178,37 +178,16 @@ with open(os.path.join(os.getcwd(),f'data/company_logo.csv'), "rb") as fp:
 # delete all files in generated_images
 btn_delete = st.button("Delete all generated images")
 if btn_delete:
-    # files = glob.glob(os.path.join(os.getcwd(),f'generated_images'))
-    # for f in files:
-    #     os.remove(f)
-    # import os, shutil
-    # folder = glob.glob(os.path.join(os.getcwd(),f'generated_images'))
-    # for filename in os.listdir(folder):
-    #     file_path = os.path.join(folder, filename)
-    #     try:
-    #         if os.path.isfile(file_path) or os.path.islink(file_path):
-    #             os.unlink(file_path)
-    #         elif os.path.isdir(file_path):
-    #             shutil.rmtree(file_path)
-    #     except Exception as e:
-    #         print('Failed to delete %s. Reason: %s' % (file_path, e))
-    files = os.listdir(os.path.join(os.getcwd(),f'generated_images'))
-    if len(files)>0:
-        for file in files:
-            os.remove(os.path.join(os.getcwd(),f'generated_images/{file}'))
-        st.markdown("All files deleted.")
-    else:
-        st.markdown("Folder empty.")
+    pass
 
+    # files = os.listdir(os.path.join(os.getcwd(),f'generated_images'))
+    # if len(files)>0:
+    #     for file in files:
+    #         os.remove(os.path.join(os.getcwd(),f'generated_images/{file}'))
+    #     st.markdown("All files deleted.")
+    # else:
+    #     st.markdown("Folder empty.")
 
-
-# hide_streamlit_style = """
-#             <style>
-#             [data-testid="stToolbar"] {visibility: hidden !important;}
-#             footer {visibility: hidden !important;}
-#             </style>
-#             """
-# st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 hide_st_style = """
             <style>
