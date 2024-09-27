@@ -158,10 +158,12 @@ btn_company_description = st.button("Generate company description")
 
 if btn_company_description:
     for i, company_name in enumerate(company_names):
-        if not company_descriptions[company_name.lower()]:
-            company_descriptions[company_name.lower()]=f'Description not found.'
-        company_description = company_name+": "+company_descriptions[company_name.lower()]
-        st.markdown(company_description+'\n\n')
+        try:
+            company_description = company_name+": "+company_descriptions[company_name.lower()]
+            st.markdown(company_description+'\n\n')
+        except:
+            st.markdown(company_name+": Description not found.\n\n")
+
 
 
 
