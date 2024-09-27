@@ -10,6 +10,7 @@ import requests
 from io import BytesIO
 import csv
 import glob
+import streamlit_scrollable_textbox as stx
 
 from io import BytesIO
 buf = BytesIO()
@@ -154,15 +155,22 @@ if button_clicked:
         )
 
 st.subheader("Generate company descriptions")
+
+all_descriptions = ""
+
 btn_company_description = st.button("Generate company description")
 
 if btn_company_description:
     for i, company_name in enumerate(company_names):
         try:
-            company_description = company_name+": "+company_descriptions[company_name.lower()]
-            st.markdown(company_description+'\n\n')
+            company_description = company_name+": "+company_descriptions[company_name.lower()]+'\n\n'
+            # st.markdown(company_description)
+            all_descriptions += company_description
         except:
-            st.markdown(company_name+": Description not found.\n\n")
+            # st.markdown(company_name+": Description not found.\n\n")
+            all_descriptions += company_name+": Description not found.\n\n"
+
+stx.scrollableTextbox(all_descriptions,height = 300)
 
 
 
