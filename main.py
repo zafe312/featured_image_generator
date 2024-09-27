@@ -53,6 +53,13 @@ with open(os.path.join(os.getcwd(),f'data/company_logo.csv')) as f:
     reader = csv.reader(f, skipinitialspace=True)
     company_logos = dict(reader)
 
+company_descriptions = {}
+
+with open(os.path.join(os.getcwd(),f'data/company_description.csv')) as f:
+    next(f)  # Skip the header
+    reader = csv.reader(f, skipinitialspace=True)
+    company_descriptions = dict(reader)
+
 button_clicked = st.button("Generate images")
 
 generated_image_names = []
@@ -146,6 +153,18 @@ if button_clicked:
             mime="application/zip"
         )
 
+st.subheader("Generate company descriptions")
+btn_company_description = st.button("Generate company description")
+
+if btn_company_description:
+    for i, company_name in enumerate(company_names):
+        if not company_descriptions[company_name.lower()]:
+            company_descriptions[company_name.lower()]=f'Description not found.'
+        company_description = company_name+": "+company_descriptions[company_name.lower()]
+        st.markdown(company_description+'\n\n')
+
+
+
 st.subheader("Add URL for company logo")
 st.markdown("This will replace the old url in the database. Add carefully.")
 company_name_input = st.text_input("Enter company name")
@@ -176,17 +195,17 @@ with open(os.path.join(os.getcwd(),f'data/company_logo.csv'), "rb") as fp:
 
 
 # delete all files in generated_images
-btn_delete = st.button("Delete all generated images")
-if btn_delete:
-    pass
+# btn_delete = st.button("Delete all generated images")
+# if btn_delete:
+#     pass
 
-    # files = os.listdir(os.path.join(os.getcwd(),f'generated_images'))
-    # if len(files)>0:
-    #     for file in files:
-    #         os.remove(os.path.join(os.getcwd(),f'generated_images/{file}'))
-    #     st.markdown("All files deleted.")
-    # else:
-    #     st.markdown("Folder empty.")
+#     # files = os.listdir(os.path.join(os.getcwd(),f'generated_images'))
+#     # if len(files)>0:
+#     #     for file in files:
+#     #         os.remove(os.path.join(os.getcwd(),f'generated_images/{file}'))
+#     #     st.markdown("All files deleted.")
+#     # else:
+#     #     st.markdown("Folder empty.")
 
 
 hide_st_style = """
